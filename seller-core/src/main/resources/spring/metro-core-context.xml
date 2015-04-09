@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2012 杭州端点网络科技有限公司
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.rrs.utils,com.rrs.session,com.rrs.seller.core"/>
+
+       <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+           <property name="maxIdle" value="#{app.redisMaxIdle}" />
+           <property name="maxTotal" value="#{app.redisMaxTotal}" />
+           <property name="maxWaitMillis" value="#{app.redisMaxWaitMillis}" />
+           <property name="testOnBorrow" value="#{app.redisTestOnBorrow}" />
+       </bean>
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisSentinelPool">
+        <constructor-arg index="0" value="mymaster" />
+        <constructor-arg index="1">
+            <set>
+                <value>10.1.132.210:6381</value>
+            </set>
+        </constructor-arg>
+        <constructor-arg index="2" ref="poolConfig"/>
+    </bean>
+
+       <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
+           <property name="hostName" value="#{app.redisHostName}" />
+           <property name="port" value="#{app.redisHostPort}"/>
+           <property name="poolConfig" ref="poolConfig"/>
+       </bean>
+
+       <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+           <property name="connectionFactory"   ref="connectionFactory"/>
+           <property name="enableTransactionSupport" value="true"/>
+       </bean>
+
+</beans>
