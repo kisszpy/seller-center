@@ -1,6 +1,7 @@
 package com.rrs.session;
 
 
+import com.rrs.constants.Constants;
 import com.rrs.utils.ApplicationContextHolder;
 import lombok.extern.java.Log;
 
@@ -23,6 +24,7 @@ public class SessionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+        response.setCharacterEncoding(Constants.DEFAULT_CHAR_SET);
         CustomerHttpServletRequest customerHttpServletRequest = new CustomerHttpServletRequest(request);
         SessionManager sessionManager = ApplicationContextHolder.getBean(SessionManager.class);
         CustomerSession session = (CustomerSession) sessionManager.createSession(customerHttpServletRequest,response);

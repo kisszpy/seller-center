@@ -19,5 +19,4 @@
 
     <util:properties id="app" location="classpath:app.properties"/>
     <import resource="classpath*:spring/metro-core-context.xml"/>
-
 </beans>
