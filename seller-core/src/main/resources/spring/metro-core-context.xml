@@ -26,10 +26,10 @@
        </bean>
 
     <bean id="jedisPool" class="redis.clients.jedis.JedisSentinelPool">
-        <constructor-arg index="0" value="mymaster" />
+        <constructor-arg index="0" value="master1" />
         <constructor-arg index="1">
             <set>
-                <value>10.1.132.210:6381</value>
+                <value>http://121.40.219.51/:6882</value>
             </set>
         </constructor-arg>
         <constructor-arg index="2" ref="poolConfig"/>
