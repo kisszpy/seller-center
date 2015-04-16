@@ -29,7 +29,7 @@
         <constructor-arg index="0" value="master1" />
         <constructor-arg index="1">
             <set>
-                <value>http://121.40.219.51/:6882</value>
+                <value>121.40.219.51:6882</value>
             </set>
         </constructor-arg>
         <constructor-arg index="2" ref="poolConfig"/>
